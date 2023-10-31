@@ -17,10 +17,11 @@ namespace UnitOfWorkDemo.Infrastructure.ServiceExtension
         {
             services.AddDbContext<DbContextClass>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IFootballTeamRepository, FootballTeamRepository>();
+            services.AddScoped<IFootballLeagueRepository, FootballLeagueRepository>();
 
             return services;
         }

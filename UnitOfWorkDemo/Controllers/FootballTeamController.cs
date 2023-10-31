@@ -6,12 +6,12 @@ namespace UnitOfWorkDemo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class FootballTeamController : ControllerBase
     {
-        public readonly IProductService _productService;
-        public ProductsController(IProductService productService)
+        public readonly IFootballTeamService _teamService;
+        public FootballTeamController(IFootballTeamService teamService)
         {
-            _productService = productService;
+            _teamService = teamService;
         }
 
         /// <summary>
@@ -19,14 +19,14 @@ namespace UnitOfWorkDemo.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetProductList()
+        public async Task<IActionResult> GetTeamList()
         {
-            var productDetailsList = await _productService.GetAllProducts();
-            if(productDetailsList == null)
+            var teamDetailsList = await _teamService.GetAllTeams();
+            if(teamDetailsList == null)
             {
                 return NotFound();
             }
-            return Ok(productDetailsList);
+            return Ok(teamDetailsList);
         }
 
         /// <summary>
@@ -34,14 +34,14 @@ namespace UnitOfWorkDemo.Controllers
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> GetProductById(int productId)
+        [HttpGet("{teamId}")]
+        public async Task<IActionResult> GetTeamById(int teamId)
         {
-            var productDetails = await _productService.GetProductById(productId);
+            var teamDetails = await _teamService.GetTeamById(teamId);
 
-            if (productDetails != null)
+            if (teamDetails != null)
             {
-                return Ok(productDetails);
+                return Ok(teamDetails);
             }
             else
             {
@@ -55,13 +55,13 @@ namespace UnitOfWorkDemo.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductDetails productDetails)
+        public async Task<IActionResult> CreateTeam(FootballTeamDetails teamDetails)
         {
-            var isProductCreated = await _productService.CreateProduct(productDetails);
+            var isTeamCreated = await _teamService.CreateTeam(teamDetails);
 
-            if (isProductCreated)
+            if (isTeamCreated)
             {
-                return Ok(isProductCreated);
+                return Ok(isTeamCreated);
             }
             else
             {
@@ -75,14 +75,14 @@ namespace UnitOfWorkDemo.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateProduct(ProductDetails productDetails)
+        public async Task<IActionResult> UpdateTeam(FootballTeamDetails teamDetails)
         {
-            if (productDetails != null)
+            if (teamDetails != null)
             {
-                var isProductCreated = await _productService.UpdateProduct(productDetails);
-                if (isProductCreated)
+                var isTeamCreated = await _teamService.UpdateTeam(teamDetails);
+                if (isTeamCreated)
                 {
-                    return Ok(isProductCreated);
+                    return Ok(isTeamCreated);
                 }
                 return BadRequest();
             }
@@ -97,14 +97,14 @@ namespace UnitOfWorkDemo.Controllers
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
-        [HttpDelete("{productId}")]
-        public async Task<IActionResult> DeleteProduct(int productId)
+        [HttpDelete("{teamId}")]
+        public async Task<IActionResult> DeleteTeam(int teamId)
         {
-            var isProductCreated = await _productService.DeleteProduct(productId);
+            var isTeamCreated = await _teamService.DeleteTeam(teamId);
 
-            if (isProductCreated)
+            if (isTeamCreated)
             {
-                return Ok(isProductCreated);
+                return Ok(isTeamCreated);
             }
             else
             {

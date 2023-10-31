@@ -6,16 +6,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnitOfWorkDemo.Core.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace UnitOfWorkDemo.Infrastructure
 {
     public class DbContextClass : DbContext
     {
+
         public DbContextClass(DbContextOptions<DbContextClass> contextOptions) : base(contextOptions)
         {
-
+       /*     Database.EnsureDeleted();
+            Database.EnsureCreated();*/
         }
 
-        public DbSet<ProductDetails> Products { get; set; }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlite("Data Source=helloapp.db");
+        //}
+
+        public DbSet<FootballTeamDetails> Teams { get; set; }
+        public DbSet<FootballLeagueDetails> Leagues { get; set; }
     }
 }

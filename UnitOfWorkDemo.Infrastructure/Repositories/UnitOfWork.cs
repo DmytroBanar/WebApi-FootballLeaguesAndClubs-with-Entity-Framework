@@ -10,13 +10,14 @@ namespace UnitOfWorkDemo.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DbContextClass _dbContext;
-        public IProductRepository Products { get; }
+        public IFootballTeamRepository Teams { get; }
+        public IFootballLeagueRepository Leagues { get; }
 
-        public UnitOfWork(DbContextClass dbContext,
-                            IProductRepository productRepository)
+        public UnitOfWork(DbContextClass dbContext, IFootballTeamRepository teamRepository, IFootballLeagueRepository leagueRepository)
         {
             _dbContext = dbContext;
-            Products = productRepository;
+            Teams = teamRepository;
+            Leagues = leagueRepository;
         }
 
         public int Save()
@@ -37,6 +38,29 @@ namespace UnitOfWorkDemo.Infrastructure.Repositories
                 _dbContext.Dispose();
             }
         }
-
     }
+    public class UnitOfWorkFactory
+    {
+        private readonly DbContextClass _dbContext;
+        private readonly IFootballTeamRepository _teamRepository;
+        private readonly IFootballLeagueRepository _leagueRepository;
+
+        public UnitOfWorkFactory(DbContextClass dbContext, IFootballTeamRepository teamRepository, IFootballLeagueRepository leagueRepository)
+        {
+            _dbContext = dbContext;
+            _teamRepository = teamRepository;
+            _leagueRepository = leagueRepository;
+        }
+
+        public IUnitOfWork CreateTeamUnitOfWork()
+        {
+            return new UnitOfWork(_dbContext, _teamRepository, _leagueRepository);
+        }
+
+        public IUnitOfWork CreateLeagueUnitOfWork()
+        {
+            return new UnitOfWork(_dbContext, _teamRepository, _leagueRepository);
+        }
+    }
+
 }
